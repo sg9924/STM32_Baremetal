@@ -25,3 +25,11 @@ _Note: The Driver Files are still in development. They will be updated in the fu
 - openocd: https://github.com/xpack-dev-tools/openocd-xpack/releases
 - make: https://gnuwin32.sourceforge.net/packages/make.htm
 - st-link tools: https://github.com/stlink-org/stlink
+
+
+# Make Commands:
+- `make compile`: Compile the C source files -> Main + Startup + Drivers
+- `make dump`: Get a dump of the assembly contents and the section contents of the final code
+- `make clean`: Delete the output and dump files created by the compile and dump commands
+- `make load`: flash the microcontroller with the final elf generated.
+- `make probe`: get info on the microcontroller connected to your system
