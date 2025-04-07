@@ -35,3 +35,4 @@ _Note: The Driver Files are still in development. They will be updated in the fu
 - `make clean`: Delete the output and dump files created by the compile and dump commands
 - `make load`: flash the microcontroller with the final elf generated.
 - `make probe`: get info on the microcontroller connected to your system
+- `make`: to compile the files and flash the microcontroller all at once
