@@ -26,11 +26,11 @@ LDFLAGS= -mcpu=$(MACH) -mthumb -nostdlib -T $(LINK) -Wl,-Map=logs/final.map     
 
 all: compile load                                          #compile and flash the microcontroller
 compile: $(MAIN).o $(STARTUP).o $(DRIVERS) final.elf       #compile the source code
-stm32f103xx_gpio_driver.o:stm32f103xx_gpio.c
+stm32f103xx_gpio.o:stm32f103xx_gpio.c
 	$(CC) $(CFLAGS) $(DEBUG_FLAG) $^ -o $@
-stm32f103xx_afio_driver.o: stm32f103xx_afio.c
+stm32f103xx_afio.o: stm32f103xx_afio.c
 	$(CC) $(CFLAGS) $(DEBUG_FLAG) $^ -o $@
-stm32f103xx_exti_driver.o: stm32f103xx_exti.c
+stm32f103xx_exti.o: stm32f103xx_exti.c
 	$(CC) $(CFLAGS) $(DEBUG_FLAG) $^ -o $@
 stm32f103xx_nvic.o: stm32f103xx_nvic.c
 	$(CC) $(CFLAGS) $(DEBUG_FLAG) $^ -o $@
