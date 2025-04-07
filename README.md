@@ -3,6 +3,8 @@ Programming STM32 Microcontrollers with Device Driver libraries built from scrat
 
 _Note: The Driver Files are still in development. They will be updated in the future_
 
+# Board Used:
+- Blue Pill: STM32F103C8T6
 
 # Files Structure:
 - Device Drivers Header and Source Files
