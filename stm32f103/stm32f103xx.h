@@ -8,25 +8,44 @@
 #include"stm32f103xx_memory_map.h"
 /*--------------------------------------------------------------------------------------------------------------------------*/
 /********************************************* Generic Macros Definitions Start *********************************************/
+#define SYSCORE_CLK          8000000
 
-#define ENABLE                 1
+#define ENABLE              1
 #define DISABLE             0
 
 #define SET                 ENABLE
-#define RESET                 DISABLE
+#define RESET               DISABLE
 #define GPIO_PIN_SET        SET
 #define GPIO_PIN_RESET      RESET
 #define FLAG_RESET          RESET
-#define FLAG_SET             SET
+#define FLAG_SET            SET
 
 // Bit Manipulations !!Currently not used!!
-#define READ_BIT(reg,bit_field)        (reg>>bit_field)
-#define SET_BIT(reg,bit_field)         (reg |= 1<<bit_field)
-#define RESET_BIT(reg,bit_field)       (reg &= ~(1<<bit_field))
+#define READ_BIT(reg,bit_field)              (reg>>bit_field)
+#define SET_BIT(reg,bit_field)               (reg |= 1U<<bit_field)
+#define RESET_BIT(reg,bit_field)             (reg &= ~(1U<<bit_field))
+#define CHECK_BIT(reg,bit_position)          (reg & (1U<<bit_position) >> bit_position)
 
 /********************************************** Generic Macros Definitions End **********************************************/
 /*--------------------------------------------------------------------------------------------------------------------------*/
 /************************************* Peripheral Registers Definition Structures Start *************************************/
+
+//CRC Register Definition Structure
+typedef struct 
+{
+    volatile uint32_t DR;
+    volatile uint32_t IDR;
+    volatile uint32_t CR;
+}CRC_RegDef;
+
+//Systick Register Definition Structure
+typedef struct
+{
+    volatile uint32_t CSR;
+    volatile uint32_t RVR;
+    volatile uint32_t CVR;
+    volatile uint32_t CALIB;
+}SysTick_RegDef;
 
 // GPIO Register Definition Structure
 typedef struct
@@ -59,7 +78,7 @@ typedef struct
     volatile uint32_t AHBENR;       /*<Address offset: 0x14> <AHB Enable>*/
     volatile uint32_t APB2ENR;      /*<Address offset: 0x18> <APB2 Enable>*/
     volatile uint32_t APB1ENR;      /*<Address offset: 0x1C> <APB1 Enable>*/
-    volatile uint32_t BDCR;         /*<Address offset: 0x20> <Back Domain Clock>*/
+    volatile uint32_t BDCR;         /*<Address offset: 0x20> <Backup Domain Clock>*/
     volatile uint32_t CSR;          /*<Address offset: 0x24> <Control/Status>*/
 }RCC_RegDef;
 
@@ -74,7 +93,105 @@ typedef struct
     volatile uint32_t PR;           /*<Address Offset: 0x0C> <Pending>*/
 }EXTI_RegDef;
 
+// USART Register Definition Structure
+typedef struct
+{
+    volatile uint32_t SR;          /*<Address Offset: 0x00> <>*/
+    volatile uint32_t DR;          /*<Address Offset: 0x04> <>*/
+    volatile uint32_t BRR;         /*<Address Offset: 0x08> <>*/
+    volatile uint32_t CR1;         /*<Address Offset: 0x0C> <>*/
+    volatile uint32_t CR2;         /*<Address Offset: 0x10> <>*/
+    volatile uint32_t CR3;         /*<Address Offset: 0x14> <>*/
+    volatile uint32_t GTPR;        /*<Address Offset: 0x18> <>*/
+}USART_RegDef;
+
+
+//SPI
+typedef struct
+{
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t SR;
+    volatile uint32_t DR;
+    volatile uint32_t CRCPR;
+    volatile uint32_t RXCRCR;
+    volatile uint32_t TXCRCR;
+    volatile uint32_t I2SCFGR;
+    volatile uint32_t I2SPR;
+}SPI_RegDef;
+
+
+//ADC
+typedef struct
+{
+    volatile uint32_t SR;
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t SMPR1;
+    volatile uint32_t SMPR2;
+    volatile uint32_t JOFR[4];
+    volatile uint32_t HTR;
+    volatile uint32_t LTR;
+    volatile uint32_t SQR1;
+    volatile uint32_t SQR2;
+    volatile uint32_t SQR3;
+    volatile uint32_t JSQR;
+    volatile uint32_t JDR[4];
+    volatile uint32_t DR;
+}ADC_RegDef;
+
+
+
+//TIMER
+typedef struct
+{
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t SMCR;
+    volatile uint32_t DIER;
+    volatile uint32_t SR;
+    volatile uint32_t EGR;
+    volatile uint32_t CCMR[2];
+    volatile uint32_t CCER;
+    volatile uint32_t CNT;
+    volatile uint32_t PSC;
+    volatile uint32_t ARR;
+    volatile uint32_t CCR[4];
+    volatile uint32_t DCR;
+    volatile uint32_t DMAR;
+}TIM_RegDef;
+
+//I2C
+typedef struct
+{
+    volatile uint32_t CR1;
+    volatile uint32_t CR2;
+    volatile uint32_t OAR1;
+    volatile uint32_t OAR2;
+    volatile uint32_t DR;
+    volatile uint32_t SR1;
+    volatile uint32_t SR2;
+    volatile uint32_t CCR;
+    volatile uint32_t TRISE;
+}I2C_RegDef;
+
+//DMA
+typedef struct
+{
+    volatile uint32_t CCR;
+    volatile uint32_t CNDTR;
+    volatile uint32_t CPAR;
+    volatile uint32_t CMAR;
+}DMA_Channel_RegDef;
+
+typedef struct
+{
+    volatile uint32_t ISR;
+    volatile uint32_t IFCR;
+    DMA_Channel_RegDef Channel[7];
+}DMA_RegDef;
+
 /*************************************** Peripheral Registers Definition Structures End ***************************************/
 /*----------------------------------------------------------------------------------------------------------------------------*/
 
-#endif /* INC_STM32F103XX_H */
+#endif
